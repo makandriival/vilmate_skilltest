@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>skilltest</title>
+  <style>
+    .box {
+      height: 100px;
+      border: 2px solid #000;
+      text-align: center;
+      line-height: 100px;
+      margin-bottom: 10px;
+      
+      border-radius: 8px;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .box:hover {
+      background-color: blanchedalmond;
+    }
+
+    .clicked {
+      background-color: #537065;
+    }
+  </style>
+</head>
+<body id="root">
+  <h1>divs task</h1>
+  <script>
+    const boxObjects = [];
+    const root = document.getElementById('root');
+
+    for (let i = 0; i <= 100; i++) {
+      boxObjects.push({
+        id: i,
+        content: `div ${i}`,
+        clicked: false,
+        prevId: i,
+      })
+    };
+
+    function render () {
+      root.innerHTML = '';
+
+      boxObjects.sort((boxA, boxB) => boxA.id - boxB.id);
+
+      boxObjects.forEach(({ id, content, clicked }) => {
+        const box = document.createElement('div');
+
+        if (clicked) {
+          box.className = `div${id} box clicked`;
+        } else {
+          box.className = `div${id} box`;
+        }
+
+        box.textContent = content;
+        box.id = id;
+        box.addEventListener('click', onClick);
+
+        root.appendChild(box);
+      });
+    }
+
+     onClick = () => {
+        let foundObj = boxObjects.find(box => box.id === Number(event.target.id));
+        
+        if (foundObj.clicked) {
+          foundObj.clicked = false;
+          foundObj.id = foundObj.prevId;
+          render();
+          
+          return;
+        }
+      
+        foundObj.clicked = true;
+        foundObj.id = boxObjects[0].id - 1;
+        render();
+      }
+
+      render();
+  </script>
+</body>
+</html>
